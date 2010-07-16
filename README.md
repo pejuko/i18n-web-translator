@@ -23,7 +23,7 @@ Installation
 
 **Installing dependencies**
 
-    gem install i18n i18n-translate ramaze
+    gem install i18n i18n-translators-tools ramaze
   
 **Downloading translator**
 
