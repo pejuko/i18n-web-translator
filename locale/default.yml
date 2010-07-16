@@ -1,0 +1,11 @@
+---
+default:
+  main:
+    title: "I18n web translator"
+    progress: "Translation to %{lang} completed from %{progress}%% (%{ok}/%{total})"
+    switch: Switch locales to
+  flag:
+    ok: ok
+    changed: changed
+    incomplete: incomplete
+    untranslated: untranslated

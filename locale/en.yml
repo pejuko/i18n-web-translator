@@ -1,0 +1,52 @@
+--- 
+en: 
+  flag: 
+    changed: 
+      comment: ""
+      default: changed
+      flag: ok
+      old: ""
+      t: changed
+    incomplete: 
+      comment: ""
+      default: incomplete
+      flag: untranslated
+      fuzzy: true
+      old: ""
+      t: ~
+    ok: 
+      comment: ""
+      default: ok
+      flag: untranslated
+      fuzzy: true
+      old: ""
+      t: ~
+    untranslated: 
+      comment: ""
+      default: untranslated
+      flag: untranslated
+      fuzzy: true
+      old: ""
+      t: ~
+  main: 
+    progress: 
+      comment: ""
+      default: "Translation to %{lang} completed from %{progress}%% (%{ok}/%{total})"
+      flag: untranslated
+      fuzzy: true
+      old: ""
+      t: ~
+    switch: 
+      comment: ""
+      default: "Switch locales to"
+      flag: changed
+      fuzzy: true
+      old: "Switch translation"
+      t: "Switch translation to"
+    title: 
+      comment: ""
+      default: "I18n web translator"
+      flag: untranslated
+      fuzzy: true
+      old: ""
+      t: ~

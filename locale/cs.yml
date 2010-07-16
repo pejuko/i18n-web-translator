@@ -1,0 +1,51 @@
+--- 
+cs: 
+  flag: 
+    changed: 
+      comment: ""
+      default: changed
+      flag: ok
+      old: ""
+      t: změněno
+    incomplete: 
+      comment: "blah blah blah"
+      default: incomplete
+      flag: incomplete
+      fuzzy: true
+      old: ""
+      t: nedokončeno
+    ok: 
+      comment: ""
+      default: ok
+      flag: untranslated
+      fuzzy: true
+      old: ""
+      t: ~
+    untranslated: 
+      comment: ""
+      default: untranslated
+      flag: untranslated
+      fuzzy: true
+      old: ""
+      t: ~
+  main: 
+    progress: 
+      comment: ""
+      default: "Translation to %{lang} completed from %{progress}%% (%{ok}/%{total})"
+      flag: ok
+      old: ""
+      t: "Překlad pro jazyk %{lang} je zhotoven z %{progress}%% (%{ok}/%{total})"
+    switch: 
+      comment: ""
+      default: "Switch locales to"
+      flag: changed
+      fuzzy: true
+      old: "Switch translation"
+      t: "Přepnout na jazyk"
+    title: 
+      comment: ""
+      default: "I18n web translator"
+      flag: untranslated
+      fuzzy: true
+      old: ""
+      t: ~

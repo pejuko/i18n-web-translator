@@ -1,0 +1,83 @@
+<!-- -*- coding: utf-8 -*- -->
+<h2 style="clear: both; float: none;">
+    <div style="float:left; height: 40px">
+        #{I18n.t('main.progress', :lang => @lang, :progress => @progress_t.to_i, :ok => @stat[:ok], :total => @stat[:total])}
+    </div>
+    <div style="background: #{@colors[:untranslated]}; width: 100%; height: 30px;">
+        <div style="background: #{@colors[:incomplete]}; height: 100%; width: #{@progress_i.to_i}%;">
+            <div style="background: #{@colors[:changed]}; height: 100%; width: #{(@progress_i == 0) ? 0 : ((@progress_c / @progress_i) * 100).to_i}%;">
+                <div style="background: #{@colors[:ok]}; height: 100%; width: #{(@progress_c == 0) ? 0 : ((@progress_t / @progress_c) * 100).to_i}%;">
+                </div>
+            </div>
+        </div>
+    </div>
+</h2>
+
+<div style="clear:both; float: none;"></div>
+
+<div id="locales">
+    #{I18n.t("main.switch")}:
+    <?r @locales.each do |locale| ?>
+        <a href="/switch_locale/#{locale}">#{locale}</a>
+    <?r end ?>
+</div>
+
+<form method="post" action="/config">
+</form>
+
+<form method="post" style="clear:both; float: none;">
+
+<table id="translation" width="100%">
+    <tr>
+        <th>Flag</th><th>#{@lang}</th><th>Default</th><th>Key</th><th>Translator's comments</th>
+    </tr>
+
+<?r @translate.merge.each do |t| ?>
+    <?r
+    key = ::CGI.escapeHTML(t["key"])
+    bg = @colors[t["flag"].to_sym] || "transparent"
+ ?>
+    <tr style="background: #{bg};" id="#{key}" name="#{key}">
+        <td class="flag">
+            <select id="translation[#{key}][flag]" name="translation[#{key}][flag]" onchange="changeBackground('#{key}')">
+                <?r I18n::Translate::FLAGS.each do |flag| ?>
+                    <?r selected = (t["flag"] == flag) ? "selected=\"selected\"" : "" ?>
+                    <option value="#{flag}" #{selected}>#{I18n.t("flag.#{flag}")}</option>
+                <?r end ?>
+            </select>
+            <br />
+            <input type="submit" name="save" value="Save All" />
+        </td>
+
+        <td class="translate">
+            <div class="old_t">
+                #{::CGI.escapeHTML(t["old_t"])}
+                <input type="hidden" name="translation[#{key}][old_t]" value="#{::CGI.escapeHTML(t['old_t'])}" />
+            </div>
+            <div class="t">
+                <textarea cols="30" rows="2" name="translation[#{key}][t]">#{::CGI.escapeHTML(t['t'])}</textarea>
+            </div>
+        </td>
+
+        <td class="default">
+            <div class="old_default">
+                #{::CGI.escapeHTML(t["old_default"])}
+                <input type="hidden" name="translation[#{key}][old_default]" value="#{::CGI.escapeHTML(t['old_default'])}" />
+            </div>
+            <div class="default">
+                <b>#{::CGI.escapeHTML(t["default"])}</b>
+                <input type="hidden" name="translation[#{key}][default]" value="#{::CGI.escapeHTML(t['default'])}" />
+            </div>
+        </td>
+
+        <td class="key">#{key}</td>
+
+        <td class="comment">
+            <textarea name="translation[#{key}][comment]" rows="3" cols="30">#{::CGI.escapeHTML(t["comment"])}</textarea>
+        </td>
+    </tr>
+<?r end ?>
+
+</table>
+
+</form>

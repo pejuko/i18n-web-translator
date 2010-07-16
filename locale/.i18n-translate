@@ -1,0 +1,5 @@
+{
+  :exclude => ['rules'],
+  :default => 'default',
+  :format => 'yml'
+}
