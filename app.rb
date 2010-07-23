@@ -24,4 +24,5 @@ I18n.load_path << Dir[ File.expand_path("../locale/*.yml", __FILE__) ]
 Ramaze.options.roots = [__DIR__]
 
 # Initialize controllers and models
+require __DIR__('model/project')
 require __DIR__('controller/init')

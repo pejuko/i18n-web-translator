@@ -1,0 +1,11 @@
+--- 
+default: 
+  main: 
+    title: "Example project"
+  man: 
+    title: "Example project"
+  some: 
+    text: "Some text changed"
+  test: 
+    message: "Testing message"
+    string: String

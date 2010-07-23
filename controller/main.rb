@@ -10,31 +10,15 @@ class MainController < Controller
 
   # the index action is called automatically when no other action is specified
   def index
-    # set current locales
-    @lang = I18n.locale
-    @translate = ::I18n::Translate::Translate.new( @lang, session[:opts] )
+    @projects = Project.all
+  end
 
-    # save changes
-    if request.post? and request["translation"]
-      @translate.assign(request["translation"])
-      @translate.export!
-      @translate.reload!
-      I18n.reload!
-    end 
-
-    # get list of available locales
-    @locales = []
-    I18n::Translate.scan(session[:opts]) do |tr|
-      @locales << tr.lang
+  # create new project
+  def create
+    if request.post? and request["project_name"] and request["new_project"]
+      Project.create(request["project_name"])
     end
-    
-    # compute some statistics
-    @stat = @translate.stat
-    if @stat[:total] > 0
-      @progress_i = ((@stat[:ok] + @stat[:changed] + @stat[:incomplete]).to_f / @stat[:total].to_f) * 100 
-      @progress_c = ((@stat[:ok] + @stat[:changed]).to_f / @stat[:total].to_f) * 100 
-      @progress_t = (@stat[:ok].to_f / @stat[:total].to_f) * 100 
-    end
+    redirect_referer
   end
 
   # only switch to different locales

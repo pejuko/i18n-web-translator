@@ -19,8 +19,15 @@ class Controller < Ramaze::Controller
     I18n.locale = session[:lang] || 'en'
     session[:opts] ||= {}
     @colors = COLORS.dup
+    init_controller
   }
+
+  protected
+
+  def init_controller
+  end
 end
 
 # Here go your requires for subclasses of Controller:
 require __DIR__('main')
+require __DIR__('project')

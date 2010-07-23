@@ -1,8 +1,6 @@
 * {
   margin: 0;
   padding: 0;
-  font-size: 9pt;
-  font-family: sans-serif;
 }
 
 h1 {
@@ -20,6 +18,8 @@ h2 {
 body {
   margin: 2em;
   background: #ccf;
+  font-size: 9pt;
+  font-family: sans-serif;
 }
 
 #content {
@@ -41,9 +41,15 @@ ul, ol {
 
 #progress div {
   height: 30px;
+  margin-bottom: 10px;
 }
 
-#translation td {
+#translation, #locales, #newlang, #projects, #newproject {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#translation td, #projects td {
   padding: 10px
 }
 
@@ -53,4 +59,12 @@ ul, ol {
   font-size: 12pt;
 }
 
+#actual {
+  font-weight: bold;
+}
 
+#toolbox {
+  margin-top: -5px;
+  margin-left: 10px;
+  font-size: 85%;
+}

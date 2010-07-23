@@ -1,0 +1,17 @@
+<form method="post">
+    <table>
+        <tr>
+            <th>Project name</th>
+            <td><input type="text" name="name" value="#{::CGI.escapeHTML @project.name}" /></td>
+        </tr>
+        <tr>
+            <th>Homepage</th>
+            <td><input type="text" name="homepage" value="#{::CGI.escapeHTML @project.homepage}" /></td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td><input type="text" name="description" value="#{::CGI.escapeHTML @project.description}" /></td>
+        </tr>
+    </table>
+    <input type="submit" name="save" value="Save" />
+</form>

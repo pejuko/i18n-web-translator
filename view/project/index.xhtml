@@ -1,0 +1,140 @@
+<!-- -*- coding: utf-8 -*- -->
+
+<h2>#{@project.name}</h2>
+<div id="toolbox" name="toolbox">
+    <a href="#{@project.homepage}">homepage</a>&nbsp;
+    <a href="/project/edit/#{@project.base_dir}">edit</a>
+</div>
+<p>
+    #{@project.description}
+</p>
+
+<?r if @stat[:total] > 0 ?>
+<div id="progress" name="progress" style="clear: both; float: none;">
+    <h2 style="float:left;">
+        #{I18n.t('main.progress', :lang => @project_lang, :progress => @progress_t.to_i, :ok => @stat[:ok], :total => @stat[:total])}
+    </h2>
+    <div style="background: #{@colors[:untranslated]}; width: 100%">
+        <div style="background: #{@colors[:incomplete]}; width: #{@progress_i.to_i}%;">
+            <div style="background: #{@colors[:changed]}; width: #{(@progress_i == 0) ? 0 : ((@progress_c / @progress_i) * 100).to_i}%;">
+                <div style="background: #{@colors[:ok]}; width: #{(@progress_c == 0) ? 0 : ((@progress_t / @progress_c) * 100).to_i}%;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?r end ?>
+
+<div style="clear:both; float: none;"></div>
+
+<div id="newlang" name="newlang">
+    <?r unless File.exists?(@translate.default_file) ?>
+    <form action="create_default/#{@project.base_dir}" method="post">
+        Create a default file
+        <input type="text" size="5" name="default_name" value="default" />
+        <select name="default_format">
+            <?r I18n::Translate::FORMATS.each do |format| ?>
+                <option value="#{format}">#{format}</option>
+            <?r end ?>
+        </select>
+        <input type="submit" name="create_default" value="create default" />
+    </form>
+    <?r else ?>
+    <form action="create_locale/#{@project.base_dir}" method="post">
+        Create new locale file for language
+        <input type="text" size="5" name="locale_name" value="" />
+        <select name="locale_format">
+            <?r I18n::Translate::FORMATS.each do |format| ?>
+                <option value="#{format}">#{format}</option>
+            <?r end ?>
+        </select>
+        <input type="submit" name="create_locale" value="create locale" />
+    </form>
+    <?r end ?>
+</div>
+
+<?r if @locales.size > 0 ?>
+<hr />
+
+<div id="locales">
+    #{I18n.t("main.switch")}:
+    <?r @locales.each do |locale| 
+        lft = locale == @project_lang ? %~<span id="actual" name="actual">[</span>~ : ""
+        rght = locale == @project_lang ?  %~<span id="actual" name="actual">]</span>~ : ""
+    ?>
+        <a href="/project/switch_locale/#{@project.base_dir}?project_lang=#{locale}">#{lft}#{locale}#{rght}</a>
+    <?r end ?>
+</div>
+<?r end ?>
+
+
+<?r if File.exists?(@translate.lang_file) and File.exists?(@translate.default_file) ?>
+
+<hr />
+
+<p>
+    <form action="create_entry/#{@project.base_dir}" method="post">
+        Add new or change entry<br />
+        key <input type="text" name="new_key" />&nbsp;&nbsp;
+        default value <input type="text" name="new_default" />
+        <input type="submit" name="create_entry" value="add / change" />
+    </form>
+</p>
+
+<form method="post" style="clear:both; float: none;">
+
+<table id="translation" width="100%">
+    <tr>
+        <th>Flag</th><th>#{@project_lang}</th><th>Default</th><th>Key</th><th>Translator's comments</th>
+    </tr>
+
+<?r @translate.merge.each do |t| ?>
+    <?r
+    key = ::CGI.escapeHTML(t["key"])
+    bg = @colors[t["flag"].to_sym] || "transparent"
+ ?>
+    <tr style="background: #{bg};" id="#{key}" name="#{key}">
+        <td class="flag">
+            <select id="translation[#{key}][flag]" name="translation[#{key}][flag]" onchange="changeBackground('#{key}')">
+                <?r I18n::Translate::FLAGS.each do |flag| ?>
+                    <?r selected = (t["flag"] == flag) ? "selected=\"selected\"" : "" ?>
+                    <option value="#{flag}" #{selected}>#{I18n.t("flag.#{flag}")}</option>
+                <?r end ?>
+            </select>
+            <br style="margin: 10px;" />
+            <input type="submit" name="save" value="Save All" />
+        </td>
+
+        <td class="translate">
+            <div class="old_translation">
+                <i>#{::CGI.escapeHTML(t["old_translation"])}</i>
+                <input type="hidden" name="translation[#{key}][old_translation]" value="#{::CGI.escapeHTML(t['old_translation'])}" />
+            </div>
+            <div class="translation">
+                <textarea cols="35" rows="2" name="translation[#{key}][translation]">#{::CGI.escapeHTML(t['translation'])}</textarea>
+            </div>
+        </td>
+
+        <td class="default">
+            <div class="old_default; height: 50%;">
+                <i>#{::CGI.escapeHTML(t["old_default"])}</i>
+                <input type="hidden" name="translation[#{key}][old_default]" value="#{::CGI.escapeHTML(t['old_default'])}" />
+            </div>
+            <div class="default; height: 50%;">
+                <b>#{::CGI.escapeHTML(t["default"])}</b>
+                <input type="hidden" name="translation[#{key}][default]" value="#{::CGI.escapeHTML(t['default'])}" />
+            </div>
+        </td>
+
+        <td class="key">#{key}</td>
+
+        <td class="comment">
+            <textarea name="translation[#{key}][comment]" rows="3" cols="30">#{::CGI.escapeHTML(t["comment"])}</textarea>
+        </td>
+    </tr>
+<?r end ?>
+
+</table>
+
+</form>
+<?r end ?>
