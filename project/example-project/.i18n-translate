@@ -8,6 +8,6 @@
 ? !ruby/symbol project_description
 : "This is only example project."
 ? !ruby/symbol project_homepage
-: "x http://github.com/pejuko/i18n-web-translator"
+: "http://github.com/pejuko/i18n-web-translator"
 ? !ruby/symbol project_name
 : "Example project"

@@ -38,8 +38,8 @@ class ProjectController < Controller
   def edit(*args)
     if request.post? and request["save"]
       @project.homepage = request["homepage"].to_s.strip
-      @project.project_name = request["name"].to_s.strip
-      @project.project_description = request["description"].to_s.strip
+      @project.name = request["name"].to_s.strip
+      @project.description = request["description"].to_s.strip
       @project.save
     end
   end
