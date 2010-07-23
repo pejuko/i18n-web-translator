@@ -51,11 +51,11 @@
 
         <td class="translate">
             <div class="old_t">
-                #{::CGI.escapeHTML(t["old_t"])}
-                <input type="hidden" name="translation[#{key}][old_t]" value="#{::CGI.escapeHTML(t['old_t'])}" />
+                #{::CGI.escapeHTML(t["old_translation"])}
+                <input type="hidden" name="translation[#{key}][old_translation]" value="#{::CGI.escapeHTML(t['old_translation'])}" />
             </div>
             <div class="t">
-                <textarea cols="30" rows="2" name="translation[#{key}][t]">#{::CGI.escapeHTML(t['t'])}</textarea>
+                <textarea cols="30" rows="2" name="translation[#{key}][translation]">#{::CGI.escapeHTML(t['translation'])}</textarea>
             </div>
         </td>
 

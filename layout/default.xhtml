@@ -19,7 +19,7 @@
             var tr = document.getElementById(key);
             var sel = document.getElementById("translation["+key+"][flag]");
             var idx = sel.selectedIndex;
-            var flag = sel[idx].text;
+            var flag = sel[idx]["value"];
             switch(flag) {
                 case "ok":
                     tr.style.background = '#{@colors[:ok]}';
