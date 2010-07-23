@@ -9,7 +9,7 @@ cs:
     incomplete: 
       comment: "blah blah blah"
       default: incomplete
-      flag: ok
+      flag: incomplete
       fuzzy: true
       translation: nedokončeno
     ok: 

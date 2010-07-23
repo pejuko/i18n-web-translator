@@ -1,10 +1,20 @@
 * {
   margin: 0;
   padding: 0;
+  font-size: 9pt;
+  font-family: sans-serif;
 }
 
 h1 {
   text-align: center;
+  font-size: 24pt;
+}
+
+h2 {
+ font-size: 15pt;
+ padding: 3px;
+ padding-left: 10px;
+ padding-right: 10px
 }
 
 body {
@@ -28,3 +38,19 @@ p {
 ul, ol {
   margin-left: 3em;
 }
+
+#progress div {
+  height: 30px;
+}
+
+#translation td {
+  padding: 10px
+}
+
+#translation th {
+  padding: 10px;
+  background: #aaaaff;
+  font-size: 12pt;
+}
+
+

@@ -1,17 +1,17 @@
 <!-- -*- coding: utf-8 -*- -->
-<h2 style="clear: both; float: none;">
-    <div style="float:left; height: 40px">
+<div id="progress" name="progress" style="clear: both; float: none;">
+    <h2 style="float:left;">
         #{I18n.t('main.progress', :lang => @lang, :progress => @progress_t.to_i, :ok => @stat[:ok], :total => @stat[:total])}
-    </div>
-    <div style="background: #{@colors[:untranslated]}; width: 100%; height: 30px;">
-        <div style="background: #{@colors[:incomplete]}; height: 100%; width: #{@progress_i.to_i}%;">
-            <div style="background: #{@colors[:changed]}; height: 100%; width: #{(@progress_i == 0) ? 0 : ((@progress_c / @progress_i) * 100).to_i}%;">
-                <div style="background: #{@colors[:ok]}; height: 100%; width: #{(@progress_c == 0) ? 0 : ((@progress_t / @progress_c) * 100).to_i}%;">
+    </h2>
+    <div style="background: #{@colors[:untranslated]}; width: 100%">
+        <div style="background: #{@colors[:incomplete]}; width: #{@progress_i.to_i}%;">
+            <div style="background: #{@colors[:changed]}; width: #{(@progress_i == 0) ? 0 : ((@progress_c / @progress_i) * 100).to_i}%;">
+                <div style="background: #{@colors[:ok]}; width: #{(@progress_c == 0) ? 0 : ((@progress_t / @progress_c) * 100).to_i}%;">
                 </div>
             </div>
         </div>
     </div>
-</h2>
+</div>
 
 <div style="clear:both; float: none;"></div>
 
@@ -45,26 +45,26 @@
                     <option value="#{flag}" #{selected}>#{I18n.t("flag.#{flag}")}</option>
                 <?r end ?>
             </select>
-            <br />
+            <br style="margin: 10px;" />
             <input type="submit" name="save" value="Save All" />
         </td>
 
         <td class="translate">
-            <div class="old_t">
-                #{::CGI.escapeHTML(t["old_translation"])}
+            <div class="old_translation">
+                <i>#{::CGI.escapeHTML(t["old_translation"])}</i>
                 <input type="hidden" name="translation[#{key}][old_translation]" value="#{::CGI.escapeHTML(t['old_translation'])}" />
             </div>
-            <div class="t">
-                <textarea cols="30" rows="2" name="translation[#{key}][translation]">#{::CGI.escapeHTML(t['translation'])}</textarea>
+            <div class="translation">
+                <textarea cols="35" rows="2" name="translation[#{key}][translation]">#{::CGI.escapeHTML(t['translation'])}</textarea>
             </div>
         </td>
 
         <td class="default">
-            <div class="old_default">
-                #{::CGI.escapeHTML(t["old_default"])}
+            <div class="old_default; height: 50%;">
+                <i>#{::CGI.escapeHTML(t["old_default"])}</i>
                 <input type="hidden" name="translation[#{key}][old_default]" value="#{::CGI.escapeHTML(t['old_default'])}" />
             </div>
-            <div class="default">
+            <div class="default; height: 50%;">
                 <b>#{::CGI.escapeHTML(t["default"])}</b>
                 <input type="hidden" name="translation[#{key}][default]" value="#{::CGI.escapeHTML(t['default'])}" />
             </div>
