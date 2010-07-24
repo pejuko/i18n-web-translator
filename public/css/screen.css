@@ -9,7 +9,7 @@ h1 {
 }
 
 h2 {
- font-size: 15pt;
+ font-size: 22px;
  padding: 3px;
  padding-left: 10px;
  padding-right: 10px
@@ -20,6 +20,10 @@ body {
   background: #ccf;
   font-size: 9pt;
   font-family: sans-serif;
+}
+
+option {
+  padding-right: 10px;
 }
 
 #content {

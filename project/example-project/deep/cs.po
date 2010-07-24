@@ -1,0 +1,9 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"X-Language: cs\n"
+
+#, ok
+msgctxt "deep"
+msgid "Nested files example"
+msgstr "Příklad vnořených adresář\305\257"

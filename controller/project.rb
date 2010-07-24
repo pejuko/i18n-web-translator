@@ -24,6 +24,13 @@ class ProjectController < Controller
     I18n::Translate.scan(@project.config) do |tr|
       @locales << tr.lang
     end
+    @locales.sort!
+    @locales.uniq!
+
+    opts = @project.config.dup
+    opts[:locale] = @project_lang
+    opts[:deep] = true
+    @locale_files = I18n::Translate.scan(opts).sort
     
     # compute some statistics
     @stat = @translate.stat
@@ -95,6 +102,23 @@ class ProjectController < Controller
     redirect_referer
   end
 
+  # switch default directory
+  def change_file(*args)
+    if request.post? and request["change_file"] and request["locale_file"]
+      locale_file = request["locale_file"]
+      redirect_referer if (not locale_file =~ /^#{Project::PROJECT_DIR}/) or locale_file =~ /\.\./
+      dir = File.dirname(locale_file)
+      file = File.basename(locale_file)
+      lang, format = $1, $2 if file =~ /(.+)\.([^.]+)$/
+      redirect_referer unless lang and format
+      p lang, format, dir
+      session[:project_lang] = lang
+      session[:project_format] = format
+      session[:project_path] = dir
+    end
+    redirect_referer
+  end
+
   protected
 
   def init_controller
@@ -103,7 +127,11 @@ class ProjectController < Controller
     session[:project_lang] ||= @lang.to_s
     @project = Project.new(action.params.first)
     @project_lang = session[:project_lang]
-    @translate = ::I18n::Translate::Translate.new( @project_lang, @project.config )
+    @project_format = session[:project_format] || "auto"
+    opts = @project.config.dup
+    opts[:format] = @project_format
+    opts[:locale_dir] = session[:project_path] if session[:project_path]
+    @translate = ::I18n::Translate::Translate.new( @project_lang, opts )
   end
 
 end
