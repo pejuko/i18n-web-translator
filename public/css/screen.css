@@ -48,9 +48,13 @@ ul, ol {
   margin-bottom: 10px;
 }
 
-#translation, #locales, #newlang, #projects, #newproject {
+#translation, #locales, #newlang, #projects, #newproject, #changefile {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+#locales a {
+  text-decoration: none;
 }
 
 #translation td, #projects td {

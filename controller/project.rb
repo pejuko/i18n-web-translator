@@ -30,7 +30,13 @@ class ProjectController < Controller
     opts = @project.config.dup
     opts[:locale] = @project_lang
     opts[:deep] = true
-    @locale_files = I18n::Translate.scan(opts).sort
+    @subdirs = []
+    @locale_files = I18n::Translate.scan(opts).sort.map{ |f|
+      f =~ /^#{Project::PROJECT_DIR}\/#{@project.base_dir}\/(.+)/
+      @subdirs << File.dirname($1)
+      $1
+    }
+    @subdirs.sort!
     
     # compute some statistics
     @stat = @translate.stat
@@ -72,7 +78,8 @@ class ProjectController < Controller
       name = request["locale_name"]
       format = request["locale_format"]
       config = @project.config.dup
-      config.merge!({:format => format})
+      config[:format] = format
+      config[:locale_dir] = session[:project_path] if session[:project_path]
       t = I18n::Translate::Translate.new(name, config)
       t.assign(t.merge)
       t.export!
@@ -106,15 +113,28 @@ class ProjectController < Controller
   def change_file(*args)
     if request.post? and request["change_file"] and request["locale_file"]
       locale_file = request["locale_file"]
-      redirect_referer if (not locale_file =~ /^#{Project::PROJECT_DIR}/) or locale_file =~ /\.\./
+      redirect_referer if locale_file =~ /\.\./
       dir = File.dirname(locale_file)
       file = File.basename(locale_file)
       lang, format = $1, $2 if file =~ /(.+)\.([^.]+)$/
       redirect_referer unless lang and format
-      p lang, format, dir
       session[:project_lang] = lang
       session[:project_format] = format
-      session[:project_path] = dir
+      session[:project_path] = @project.config[:locale_dir].dup
+      session[:project_path] << "/#{dir}" if dir != "."
+    elsif request.post? and request["create_dir"]
+      path = File.join(@project.config[:locale_dir], request["directory"])
+      subdir = request["subdirectory"]
+      redirect_referer if path =~ /\.\./
+      redirect_referer if subdir =~ /\.\./
+      redirect_referer unless path =~ /^#{@project.config[:locale_dir]}/
+      trg = File.join(path, subdir)
+      Dir.mkdir(trg)
+      default = File.basename(@translate.default_file)
+      lang = File.basename(@translate.lang_file)
+
+      I18n::Translate::Processor.write(File.join(trg, default), {@translate.options[:default] => {}}, @translate)
+      I18n::Translate::Processor.write(File.join(trg, lang), {@translate.lang => {}}, @translate)
     end
     redirect_referer
   end

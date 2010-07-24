@@ -65,18 +65,35 @@
         <a href="/project/switch_locale/#{@project.base_dir}?project_lang=#{locale}">#{lft}#{locale}#{rght}</a>
     <?r end ?>
 
-    <form action="/project/change_file/#{@project.base_dir}" method="post">
-      <select name="locale_file">
-        <?r @locale_files.each do |file|
-          sel = (file == @translate.lang_file) ? 'selected="selected"' : ""
-        ?>
-          <option #{sel} value="#{::CGI.escapeHTML(file)}">#{::CGI.escapeHTML(file)}</option>
-        <?r end ?>
-      </select>
-      <input type="submit" name="change_file" value="change file" />
-    </form>
 
 </div>
+
+<hr />
+
+<div id="changefile">
+  <form action="/project/change_file/#{@project.base_dir}" method="post">
+    Edit file
+    <select name="locale_file">
+      <?r @locale_files.each do |file|
+        sel = ("#{@project.config[:locale_dir]}/#{file}" == @translate.lang_file) ? 'selected="selected"' : ""
+      ?>
+        <option #{sel} value="#{::CGI.escapeHTML(file)}">#{::CGI.escapeHTML(file)}</option>
+      <?r end ?>
+    </select>
+    <input type="submit" name="change_file" value="change file" />
+    &nbsp;&nbsp;
+    In the directory
+    <select name="directory">
+      <?r @subdirs.each do |dir| ?>
+        <option name="#{dir}">#{dir}</option> 
+      <?r end ?>
+    </select>
+    create
+    <input type="text" name="subdirectory" size="10" />
+    <input type="submit" name="create_dir" value="create subdirectory" />
+  </form>
+</div>
+
 <?r end ?>
 
 
