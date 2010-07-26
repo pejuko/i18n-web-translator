@@ -44,8 +44,10 @@
         Create new locale file for language
         <input type="text" size="5" name="locale_name" value="" />
         <select name="locale_format">
-            <?r I18n::Translate::FORMATS.each do |format| ?>
-                <option value="#{format}">#{format}</option>
+            <?r I18n::Translate::FORMATS.each do |format|
+              sel = (@translate.lang_file =~ /\.#{format}$/) ? %~selected="selected"~ : ""
+            ?>
+              <option #{sel} value="#{format}">#{format}</option>
             <?r end ?>
         </select>
         <input type="submit" name="create_locale" value="create locale" />
