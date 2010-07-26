@@ -8,11 +8,6 @@ msgctxt "main.title"
 msgid "Example project"
 msgstr ""
 
-#, fuzzy, untranslated
-msgctxt "man.title"
-msgid "Example project"
-msgstr ""
-
 #, fuzzy, changed
 #| msgid "Some text"
 msgctxt "some.text"

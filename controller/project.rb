@@ -20,23 +20,11 @@ class ProjectController < Controller
     end 
 
     # get list of available locales
-    @locales = []
-    I18n::Translate.scan(@project.config) do |tr|
-      @locales << tr.lang
-    end
-    @locales.sort!
-    @locales.uniq!
+    @locales = get_locales(@project.config)
 
-    opts = @project.config.dup
-    opts[:locale] = @project_lang
-    opts[:deep] = true
-    @subdirs = []
-    @locale_files = I18n::Translate.scan(opts).sort.map{ |f|
-      f =~ /^#{Project::PROJECT_DIR}\/#{@project.base_dir}\/(.+)/
-      @subdirs << File.dirname($1)
-      $1
-    }
-    @subdirs.sort!
+    # get list of available directories
+    @subdirs = get_dirs(@project_lang, @project.config)
+    @locale_files = get_locale_files(@project_lang, @project.config)
     
     # compute some statistics
     @stat = @translate.stat
@@ -79,10 +67,13 @@ class ProjectController < Controller
       format = request["locale_format"]
       config = @project.config.dup
       config[:format] = format
-      config[:locale_dir] = session[:project_path] if session[:project_path]
-      t = I18n::Translate::Translate.new(name, config)
-      t.assign(t.merge)
-      t.export!
+      Find.find(@project.config[:locale_dir]) do |path|
+        next unless File.directory?(path)
+        config[:locale_dir] = path
+        t = I18n::Translate::Translate.new(name, config)
+        t.assign(t.merge)
+        t.export!
+      end
     end
 
     redirect_referer
@@ -131,15 +122,47 @@ class ProjectController < Controller
       trg = File.join(path, subdir)
       Dir.mkdir(trg)
       default = File.basename(@translate.default_file)
-      lang = File.basename(@translate.lang_file)
-
       I18n::Translate::Processor.write(File.join(trg, default), {@translate.options[:default] => {}}, @translate)
-      I18n::Translate::Processor.write(File.join(trg, lang), {@translate.lang => {}}, @translate)
+      locales = get_locales(@project.config)
+      format = 'yml'
+      format = $1 if @translate.lang_file =~ /\.([^\.]+)$/
+      locales.each do |lang|
+        I18n::Translate::Processor.write(File.join(trg, "#{lang}.#{format}"), {@translate.lang => {}}, @translate)
+      end
     end
     redirect_referer
   end
 
   protected
+
+  def get_locales(config)
+    locales = []
+    I18n::Translate.scan(config) do |tr|
+      locales << tr.lang
+    end
+    locales.sort!
+    locales.uniq!
+    locales
+  end
+
+  def get_locale_files(lang, config)
+    opts = config.dup
+    opts[:locale] = lang
+    opts[:deep] = true
+    locale_files = I18n::Translate.scan(opts).sort.map{ |f|
+      f =~ /^#{Project::PROJECT_DIR}\/#{@project.base_dir}\/(.+)/
+      $1
+    }
+    locale_files
+  end
+
+  def get_dirs(lang, config)
+    subdirs = []
+    locale_files = get_locale_files(lang, config)
+    subdirs = locale_files.map{|x| File.dirname(x)}
+    subdirs.sort!
+    subdirs
+  end
 
   def init_controller
     # set current locales
