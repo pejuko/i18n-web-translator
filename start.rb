@@ -11,7 +11,7 @@ options = {
 }
 
 if File.exists?('conf/local.rb')
-  options.merge!(eval(File.read('conf/local.rb')))
+  options.merge!(I18n::Translate.read_config('conf/local.rb'))
 end
 
 options[:file] = __FILE__

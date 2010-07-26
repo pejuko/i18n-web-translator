@@ -15,7 +15,7 @@ class Project
 
     @opt_file = File.join(path, ".i18n-translate")
     @config = {}
-    @config.merge! YAML.load(File.read(@opt_file))
+    @config.merge! I18n::Translate.read_config(@opt_file)
     @config[:locale_dir] = path
 
     @name = @config[:project_name].to_s.strip
@@ -59,7 +59,7 @@ class Project
 
   # save config
   def save
-    File.open(@opt_file, "w"){|f| f.write(@config.ya2yaml)}
+    File.open(@opt_file, "w"){|f| f.write(@config.inspect)}
   end
 
   def name=(value)
