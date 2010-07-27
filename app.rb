@@ -14,6 +14,8 @@ if RUBY_VERSION == '1.8.6'
 end
 require 'ramaze'
 
+Ramaze.options.session[:key] = "i18n-web-translator"
+
 require 'i18n-translate'
 I18n::Backend::Simple.send(:include, I18n::Backend::Translate)
 I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
