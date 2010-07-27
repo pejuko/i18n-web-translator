@@ -59,7 +59,7 @@ Dependencies
 -------------
 
 * i18n
-* i18n-translators-tools
+* i18n-translators-tools (version 0.2)
 * ramaze
 
 
