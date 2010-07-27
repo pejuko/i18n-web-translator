@@ -67,9 +67,10 @@ class ProjectController < Controller
       format = request["locale_format"]
       config = @project.config.dup
       config[:format] = format
-      Find.find(@project.config[:locale_dir]) do |path|
-        next unless File.directory?(path)
-        config[:locale_dir] = path
+      get_dirs(@translate.lang, @project.config).each do |path|
+        dir = File.join(@project.config[:locale_dir], path)
+        next unless File.directory?(dir)
+        config[:locale_dir] = dir
         t = I18n::Translate::Translate.new(name, config)
         t.assign(t.merge)
         t.export!
