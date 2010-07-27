@@ -29,6 +29,7 @@ option {
 #content {
   margin: 1em;
   background: #fff;
+  border: #ccf solid 1px;
   padding: 1em;
   -moz-border-radius: 3em;
   -webkit-border-radius: 3em;
