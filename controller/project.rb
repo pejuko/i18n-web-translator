@@ -71,9 +71,7 @@ class ProjectController < Controller
         dir = File.join(@project.config[:locale_dir], path)
         next unless File.directory?(dir)
         config[:locale_dir] = dir
-        t = I18n::Translate::Translate.new(name, config)
-        t.assign(t.merge)
-        t.export!
+        t = I18n::Translate.create_locale(name, config)
       end
     end
 
