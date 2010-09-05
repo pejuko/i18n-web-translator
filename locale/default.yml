@@ -9,3 +9,4 @@ default:
     changed: changed
     incomplete: incomplete
     untranslated: untranslated
+    obsolete: obsolete

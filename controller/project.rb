@@ -174,6 +174,7 @@ class ProjectController < Controller
     opts[:format] = @project_format
     opts[:locale_dir] = session[:project_path] if session[:project_path]
     @translate = ::I18n::Translate::Translate.new( @project_lang, opts )
+    @translate.assign(@translate.merge)
   end
 
 end

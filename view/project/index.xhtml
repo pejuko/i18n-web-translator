@@ -116,15 +116,18 @@
 
 <table id="translation" width="100%">
     <tr>
-        <th>Flag</th><th>#{@project_lang}</th><th>Default</th><th>Key</th><th>Translator's comments</th>
+        <th></th><th>Flag</th><th>#{@project_lang}</th><th>Default</th><th>Key</th><th>Translator's comments</th>
     </tr>
 
-<?r @translate.merge.each do |t| ?>
-    <?r
-    key = ::CGI.escapeHTML(t["key"])
-    bg = @colors[t["flag"].to_sym] || "transparent"
+<?r keys = I18n::Translate.hash_to_keys(@translate.target)
+    keys.each do |key|
+        t = @translate.find(key)
+        bg = @colors[t["flag"].to_sym] || "transparent"
  ?>
     <tr style="background: #{bg};" id="#{key}" name="#{key}">
+        <th>
+            <input type="submit" name="save" value="Save" />
+        </th>
         <td class="flag">
             <select id="translation[#{key}][flag]" name="translation[#{key}][flag]" onchange="changeBackground('#{key}')">
                 <?r I18n::Translate::FLAGS.each do |flag| ?>
@@ -132,35 +135,33 @@
                     <option value="#{flag}" #{selected}>#{I18n.t("flag.#{flag}")}</option>
                 <?r end ?>
             </select>
-            <br style="margin: 10px;" />
-            <input type="submit" name="save" value="Save All" />
         </td>
 
         <td class="translate">
             <div class="old_translation">
-                <i>#{::CGI.escapeHTML(t["old_translation"])}</i>
-                <input type="hidden" name="translation[#{key}][old_translation]" value="#{::CGI.escapeHTML(t['old_translation'])}" />
+                <i>#{::CGI.escapeHTML(t["old_translation"].to_s)}</i>
+                <input type="hidden" name="translation[#{key}][old_translation]" value="#{::CGI.escapeHTML(t['old_translation'].to_s)}" />
             </div>
             <div class="translation">
-                <textarea cols="35" rows="2" name="translation[#{key}][translation]">#{::CGI.escapeHTML(t['translation'])}</textarea>
+                <textarea cols="35" rows="2" name="translation[#{key}][translation]">#{::CGI.escapeHTML(t['translation'].to_s)}</textarea>
             </div>
         </td>
 
         <td class="default">
             <div class="old_default; height: 50%;">
-                <i>#{::CGI.escapeHTML(t["old_default"])}</i>
-                <input type="hidden" name="translation[#{key}][old_default]" value="#{::CGI.escapeHTML(t['old_default'])}" />
+                <i>#{::CGI.escapeHTML(t["old_default"].to_s)}</i>
+                <input type="hidden" name="translation[#{key}][old_default]" value="#{::CGI.escapeHTML(t['old_default'].to_s)}" />
             </div>
             <div class="default; height: 50%;">
-                <b>#{::CGI.escapeHTML(t["default"])}</b>
-                <input type="hidden" name="translation[#{key}][default]" value="#{::CGI.escapeHTML(t['default'])}" />
+                <b>#{::CGI.escapeHTML(t["default"].to_s)}</b>
+                <input type="hidden" name="translation[#{key}][default]" value="#{::CGI.escapeHTML(t['default'].to_s)}" />
             </div>
         </td>
 
         <td class="key">#{key}</td>
 
         <td class="comment">
-            <textarea name="translation[#{key}][comment]" rows="3" cols="30">#{::CGI.escapeHTML(t["comment"])}</textarea>
+            <textarea name="translation[#{key}][comment]" rows="3" cols="30">#{::CGI.escapeHTML(t["comment"].to_s)}</textarea>
         </td>
     </tr>
 <?r end ?>

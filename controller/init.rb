@@ -12,7 +12,8 @@ class Controller < Ramaze::Controller
       :ok => "#35d035",
       :changed => "#ffaa33",
       :untranslated => "#e03535",
-      :incomplete => "#eeee00"
+      :incomplete => "#eeee00",
+      :obsolete => "#aaaaaa"
   }
 
   before_all {

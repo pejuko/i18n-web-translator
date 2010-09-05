@@ -3,7 +3,7 @@ default:
   main: 
     title: "Example project"
   some: 
-    text: "Some text changed"
+    text: "Some text has changed"
   test: 
     message: "Testing message"
     string: String

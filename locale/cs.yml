@@ -35,3 +35,4 @@ cs:
       default: "I18n web translator"
       flag: untranslated
       fuzzy: true
+    missing: "Text"
