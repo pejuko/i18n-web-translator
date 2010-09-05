@@ -14,6 +14,11 @@ class ProjectController < Controller
     # save changes
     if request.post? and request["translation"]
       @translate.assign(request["translation"])
+      if request["delete"] and request["delete"].kind_of?(Hash)
+        request["delete"].each do |key, value|
+          @translate.delete(key)
+        end
+      end
       @translate.export!
       @translate.reload!
       I18n.reload!

@@ -125,8 +125,9 @@
         bg = @colors[t["flag"].to_sym] || "transparent"
  ?>
     <tr style="background: #{bg};" id="#{key}" name="#{key}">
-        <th>
-            <input type="submit" name="save" value="Save" />
+        <th class="tools">
+            <input type="submit" name="save" value="Save" /><br />
+            <input type="submit" name="delete[#{key}]" value="Delete" onclick="confirm('Delete #{key}?');" />
         </th>
         <td class="flag">
             <select id="translation[#{key}][flag]" name="translation[#{key}][flag]" onchange="changeBackground('#{key}')">

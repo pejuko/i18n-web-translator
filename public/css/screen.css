@@ -68,6 +68,12 @@ ul, ol {
   font-size: 12pt;
 }
 
+.tools {
+    padding-right: 0px;
+    margin-right: 0px;
+    text-align: right;
+}
+
 #actual {
   font-weight: bold;
 }
