@@ -75,6 +75,8 @@ class ProjectController < Controller
       format = request["locale_format"]
       config = @project.config.dup
       config[:format] = format
+      t = I18n::Translate.create_locale(name, config)
+      session[:project_lang] = t.lang
       get_dirs(@translate.lang, @project.config).each do |path|
         dir = File.join(@project.config[:locale_dir], path)
         next unless File.directory?(dir)
