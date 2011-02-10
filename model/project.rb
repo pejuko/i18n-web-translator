@@ -1,6 +1,6 @@
 require 'yaml'
-require 'ya2yaml'
 require 'i18n'
+require 'pp'
 
 require __DIR__("../lib/transliter")
 
@@ -41,7 +41,7 @@ class Project
       :project_name => name,
     }
     opt_file = File.join(base_dir, ".i18n-translate")
-    File.open(opt_file, "w"){|f| f.write(config.ya2yaml)}
+    File.open(opt_file, "w"){|f| f.write(config.inspect)}
   end
 
   def self.name_to_dir(name)
