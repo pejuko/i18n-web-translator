@@ -42,11 +42,14 @@ class ProjectController < Controller
 
   # change project title, description, url, settings
   def edit(*args)
-    if request.post? and request["save"]
-      @project.homepage = request["homepage"].to_s.strip
-      @project.name = request["name"].to_s.strip
-      @project.description = request["description"].to_s.strip
-      @project.save
+    if request.post?
+      if request["save"]
+        @project.homepage = request["homepage"].to_s.strip
+        @project.name = request["name"].to_s.strip
+        @project.description = request["description"].to_s.strip
+        @project.save
+      end
+      redirect "/project/#{@project.base_dir}"
     end
   end
 
