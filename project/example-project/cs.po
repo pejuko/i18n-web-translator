@@ -3,7 +3,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "X-Language: cs\n"
 
-#, ok
+#, fuzzy, untranslated
 msgctxt "main.title"
 msgid "Example project"
 msgstr ""
@@ -14,9 +14,9 @@ msgid "Missing in default"
 msgstr "Chybí v default"
 
 #, fuzzy, changed
-#| msgid "Some text"
+#| msgid "Some text changed"
 msgctxt "some.text"
-msgid "Some text changed"
+msgid "Some text has changed"
 msgstr "Nějaký text"
 
 #, ok

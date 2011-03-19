@@ -20,8 +20,7 @@ class ProjectController < Controller
         end
       end
       @translate.export!
-      @translate.reload!
-      I18n.reload!
+      reload
     end 
 
     # get list of available locales
@@ -63,6 +62,7 @@ class ProjectController < Controller
       @project.save
       filename = File.join(Project::PROJECT_DIR, @project.base_dir, %~#{name}.#{format}~)
       I18n::Translate::Processor.write(filename, default, @translate)
+      #reload
     end
 
     redirect_referer
@@ -83,6 +83,7 @@ class ProjectController < Controller
         config[:locale_dir] = dir
         t = I18n::Translate.create_locale(name, config)
       end
+      #reload
     end
 
     redirect_referer
@@ -96,6 +97,7 @@ class ProjectController < Controller
       I18n::Translate.set(key, value, @translate.default, @translate.options[:separator])
       default = {@translate.options[:default] => @translate.default}
       I18n::Translate::Processor.write(@translate.default_file, default, @translate)
+      #reload
     end
   
     redirect_referer
@@ -143,6 +145,12 @@ class ProjectController < Controller
   end
 
   protected
+
+  def reload
+    @translate.reload!
+    @translate.assign(@translate.merge)
+    I18n.reload!
+  end
 
   def get_locales(config)
     locales = []
